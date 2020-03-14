@@ -28,7 +28,9 @@ namespace Z_Siddiqi_Crswrk1
             textBox2.Text = aerofoil.Substring(0, 1) + "%";
             textBox3.Text = aerofoil.Substring(1, 1) + "%";
             textBox4.Text = aerofoil.Substring(2, 2) + "%";
+            textBox5.Text = " ";
             textBox6.Text = Convert.ToString(limit);
+            textBox14.Text = " ";
             textBox16.Text = "Normal";
         }
 
@@ -49,7 +51,9 @@ namespace Z_Siddiqi_Crswrk1
                 textBox2.Text = fourDigit.aerofoil.Substring(0, 1) + "%";
                 textBox3.Text = fourDigit.aerofoil.Substring(1, 1) + "%";
                 textBox4.Text = fourDigit.aerofoil.Substring(2, 2) + "%";
+                textBox5.Text = " ";
                 textBox6.Text = Convert.ToString(fourDigit.limit);
+                textBox14.Text = " ";
 
                 double A0 = alpha + fourDigit.A0();
                 double int_A0 = - fourDigit.A0();
@@ -64,6 +68,7 @@ namespace Z_Siddiqi_Crswrk1
                 double CMac = -(Math.PI / 4) * (A1 - A2);
                 double CMle = -(Math.PI / 2) * (A0 + A1 - A2 / 2);
                 double alpha_zl = (int_A0 - A1 / 2) * 180 / Math.PI;
+
                 textBox10.Text = CL.ToString();
                 textBox11.Text = CMle.ToString();
                 textBox12.Text = CMac.ToString();
@@ -79,6 +84,7 @@ namespace Z_Siddiqi_Crswrk1
                 fiveDigit.r = constants(Convert.ToDouble(fiveDigit.aerofoil.Substring(1, 2)), 1);
                 fiveDigit.k = constants(Convert.ToDouble(fiveDigit.aerofoil.Substring(1, 2)), 2);
                 fiveDigit.camber = Math.Acos(1 - 2 * fiveDigit.r);
+
                 double maxCamber = Convert.ToDouble(fiveDigit.aerofoil.Substring(1, 2));
 
                 textBox2.Text = fiveDigit.aerofoil.Substring(0, 1) + "%";
@@ -101,6 +107,7 @@ namespace Z_Siddiqi_Crswrk1
                 double CMac = -(Math.PI / 4) * (A1 - A2);
                 double CMle = -(Math.PI / 2) * (A0 + A1 - A2 / 2);
                 double alpha_zl = (int_A0 - A1 / 2) * 180 / Math.PI;
+
                 textBox10.Text = CL.ToString();
                 textBox11.Text = CMle.ToString();
                 textBox12.Text = CMac.ToString();
@@ -155,7 +162,9 @@ namespace Z_Siddiqi_Crswrk1
                 textBox2.Text = fourDigit.aerofoil.Substring(0, 1) + "%";
                 textBox3.Text = fourDigit.aerofoil.Substring(1, 1) + "%";
                 textBox4.Text = fourDigit.aerofoil.Substring(2, 2) + "%";
+                textBox5.Text = " ";
                 textBox6.Text = Convert.ToString(fourDigit.limit);
+                textBox14.Text = " ";
 
                 double A0 = alpha - (1 / Math.PI) * (fourDigit.SimpsonsRule(0, fourDigit.limit, 0, fourDigit.dzdxf) + fourDigit.SimpsonsRule(fourDigit.limit, Math.PI, 0, fourDigit.dzdxa));
                 double int_A0 = (1 / Math.PI) * (fourDigit.SimpsonsRule(0, fourDigit.limit, 0, fourDigit.dzdxf) + fourDigit.SimpsonsRule(fourDigit.limit, Math.PI, 0, fourDigit.dzdxa));
@@ -170,6 +179,7 @@ namespace Z_Siddiqi_Crswrk1
                 double CMac = -(Math.PI / 4) * (A1 - A2);
                 double CMle = -(Math.PI / 2) * (A0 + A1 - A2 / 2);
                 double alpha_zl = (int_A0 - A1 / 2) * 180 / Math.PI;
+
                 textBox10.Text = CL.ToString();
                 textBox11.Text = CMle.ToString();
                 textBox12.Text = CMac.ToString();
@@ -185,6 +195,7 @@ namespace Z_Siddiqi_Crswrk1
                 fiveDigit.r = constants(Convert.ToDouble(fiveDigit.aerofoil.Substring(1, 2)), 1);
                 fiveDigit.k = constants(Convert.ToDouble(fiveDigit.aerofoil.Substring(1, 2)), 2);
                 fiveDigit.camber = Math.Acos(1 - 2 * fiveDigit.r);
+                
                 double maxCamber = Convert.ToDouble(fiveDigit.aerofoil.Substring(1, 2));
 
                 textBox2.Text = fiveDigit.aerofoil.Substring(0, 1) + "%";
@@ -194,10 +205,10 @@ namespace Z_Siddiqi_Crswrk1
                 textBox6.Text = Convert.ToString(fiveDigit.camber);
                 textBox14.Text = Convert.ToString(fiveDigit.r);
 
-                double A0 = alpha + fiveDigit.A0();
-                double int_A0 = -fiveDigit.A0();
-                double A1 = fiveDigit.A1();
-                double A2 = fiveDigit.A2();
+                double A0 = alpha - (1 / Math.PI) * (fiveDigit.SimpsonsRule(0, fiveDigit.camber, 0, fiveDigit.dzdxf) + fiveDigit.SimpsonsRule(fiveDigit.camber, Math.PI, 0, fiveDigit.dzdxa));
+                double int_A0 = (1 / Math.PI) * (fiveDigit.SimpsonsRule(0, fiveDigit.camber, 0, fiveDigit.dzdxf) + fiveDigit.SimpsonsRule(fiveDigit.camber, Math.PI, 0, fiveDigit.dzdxa));
+                double A1 = (2 / Math.PI) * (fiveDigit.SimpsonsRule(0, fiveDigit.camber, 1, fiveDigit.dzdxf) + fiveDigit.SimpsonsRule(fiveDigit.camber, Math.PI, 1, fiveDigit.dzdxa));
+                double A2 = (2 / Math.PI) * (fiveDigit.SimpsonsRule(0, fiveDigit.camber, 2, fiveDigit.dzdxf) + fiveDigit.SimpsonsRule(fiveDigit.camber, Math.PI, 2, fiveDigit.dzdxa));
 
                 textBox7.Text = A0.ToString();
                 textBox8.Text = A1.ToString();
@@ -207,12 +218,12 @@ namespace Z_Siddiqi_Crswrk1
                 double CMac = -(Math.PI / 4) * (A1 - A2);
                 double CMle = -(Math.PI / 2) * (A0 + A1 - A2 / 2);
                 double alpha_zl = (int_A0 - A1 / 2) * 180 / Math.PI;
+
                 textBox10.Text = CL.ToString();
                 textBox11.Text = CMle.ToString();
                 textBox12.Text = CMac.ToString();
                 textBox13.Text = alpha_zl.ToString();
             }
-
         }
     }
 
@@ -232,12 +243,10 @@ namespace Z_Siddiqi_Crswrk1
         {
             return -(1 / Math.PI) * (A0_fore(m, p, limit) - A0_fore(m, p, 0) + A0_aft(m, p, Math.PI) - A0_aft(m, p, limit));
         }
-
         public double A1()
         {
             return (2 / Math.PI) * (A1_fore(m, p, limit) - A1_fore(m, p, 0) + A1_aft(m, p, Math.PI) - A1_aft(m, p, limit));
         }
-
         public double A2()
         {
             return (2 / Math.PI) * (A2_fore(m, p, limit) - A2_fore(m, p, 0) + A2_aft(m, p, Math.PI) - A2_aft(m, p, limit));
@@ -251,7 +260,6 @@ namespace Z_Siddiqi_Crswrk1
         {
             return m * x * (2 * p - 1) / Math.Pow(1 - p, 2) + (m / Math.Pow(1 - p, 2)) * Math.Sin(x);
         }
-
         public double A1_fore(double m, double p, double x)
         {
             return m * (2 * p - 1) * Math.Sin(x) / Math.Pow(p, 2) + (m / Math.Pow(p, 2)) * (x / 2 + Math.Sin(2 * x) / 4);
@@ -260,7 +268,6 @@ namespace Z_Siddiqi_Crswrk1
         {
             return m * (2 * p - 1) * Math.Sin(x) / Math.Pow(1 - p, 2) + (m / Math.Pow(1 - p, 2)) * (x / 2 + Math.Sin(2 * x) / 4);
         }
-
         public double A2_fore(double m, double p, double x)
         {
             return m * (2 * p - 1) * Math.Sin(2 * x) / (2 * Math.Pow(p, 2)) + (m / Math.Pow(p, 2)) * (Math.Sin(3 * x) / 6 + Math.Sin(x) / 2);
@@ -274,7 +281,6 @@ namespace Z_Siddiqi_Crswrk1
         {
             return m / Math.Pow(p, 2) * (2 * p - 1 + Math.Cos(x)) * Math.Cos(n * x);
         }
-
         public double dzdxa(double m, double p, double x, double n)
         {
             return m / Math.Pow(1 - p, 2) * (2 * p - 1 + Math.Cos(x)) * Math.Cos(n * x);
@@ -327,12 +333,10 @@ namespace Z_Siddiqi_Crswrk1
         {
             return -(1 / Math.PI) * (A0_fore(k, r, camber) + A0_aft(k, r, camber));
         }
-
         public double A1()
         {
             return (2 / Math.PI) * (A1_fore(k, r, camber) + A1_aft(k, r, camber));
         }
-
         public double A2()
         {
             return (2 / Math.PI) * (A2_fore(k, r, camber) + A2_aft(k, r, camber));
@@ -346,12 +350,10 @@ namespace Z_Siddiqi_Crswrk1
 
             return A * x + B * Math.Sin(x) + C * (x / 2 + Math.Sin(2 * x) / 4);
         }
-
         public double A0_aft(double k, double r, double x)
         {
             return (-k * Math.Pow(r, 3) * Math.PI / 6) - (-k * Math.Pow(r, 3) * x / 6);
         }
-
         public double A1_fore(double k, double r, double x)
         {
             double A = k / 8 - k * r / 2 + (k * Math.Pow(r, 2) * (3 - r)) / 6;
@@ -360,12 +362,10 @@ namespace Z_Siddiqi_Crswrk1
 
             return A * Math.Sin(x) + B * (x / 2 + Math.Sin(2 * x) / 4) + C * (Math.Sin(x) - Math.Pow(Math.Sin(x), 3) / 3);
         }
-
         public double A1_aft(double k, double r, double x)
         {
             return (-k * Math.Pow(r, 3) * Math.Sin(Math.PI) / 6) - (-k * Math.Pow(r, 3) * Math.Sin(x) / 6);
         }
-
         public double A2_fore(double k, double r, double x)
         {
             double A = k / 8 - k * r / 2 + (k * Math.Pow(r, 2) * (3 - r)) / 6;
@@ -374,10 +374,52 @@ namespace Z_Siddiqi_Crswrk1
 
             return A * Math.Sin(2 * x) / 2 + B * (Math.Sin(3 * x) / 6 + Math.Sin(x) / 2) + C * (x / 4 + Math.Sin(2 * x) / 4 + Math.Sin(4 * x) / 16);
         }
-
         public double A2_aft(double k, double r, double x)
         {
             return (-k * Math.Pow(r, 3) * Math.Sin(2 * Math.PI) / 12) - (-k * Math.Pow(r, 3) * Math.Sin(2 * x) / 12);
+        }
+
+        public double dzdxf(double k, double r, double x, double n)
+        {
+            double A = k / 8 - k * r / 2 + (k * Math.Pow(r, 2) * (3 - r)) / 6;
+            double B = k * r / 2 - k / 4;
+            double C = k / 8;
+
+            return (A + B * Math.Cos(x) + C * Math.Pow(Math.Cos(x), 2)) * Math.Cos(n * x);
+        }
+        public double dzdxa(double k, double r, double x, double n)
+        {
+            return (-k * Math.Pow(r, 3) / 6) * Math.Cos(n * x);
+        }
+
+        public double SimpsonsRule(double ll, double ul, double n, Func<double, double, double, double, double> func)
+        {
+            int nn = 6;
+
+            double h = (ul - ll) / nn;
+
+            double[] x = new double[10];
+            double[] fx = new double[10];
+
+            for (int i = 0; i <= nn; i++)
+            {
+                x[i] = ll + i * h;
+                fx[i] = func(k, r, x[i], n);
+            }
+
+            double res = 0;
+            for (int i = 0; i <= nn; i++)
+            {
+                if (i == 0 || i == nn)
+                    res += fx[i];
+                else if (i % 2 != 0)
+                    res += 4 * fx[i];
+                else
+                    res += 2 * fx[i];
+            }
+
+            res = res * (h / 3);
+            return res;
         }
     }
 }
