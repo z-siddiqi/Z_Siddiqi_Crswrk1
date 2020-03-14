@@ -34,11 +34,17 @@ namespace Z_Siddiqi_Crswrk1
             textBox16.Text = "Normal";
         }
 
-        private void button1_Click(object sender, EventArgs e)
+    private void button1_Click(object sender, EventArgs e)
         {
-            string aerofoil = textBox1.Text;
+        int num;    
+        string aerofoil = textBox1.Text;
 
-            if (aerofoil.Length == 4)
+            if (!int.TryParse(aerofoil, out num) || aerofoil.Length > 5)
+            {
+                System.Windows.Forms.MessageBox.Show("Please enter a four or five digit NACA aerofoil.");
+            }
+ 
+            else if (aerofoil.Length == 4)
             {
                 double alpha = 4 * Math.PI / 180;
                 textBox15.Text = Convert.ToString(alpha * 180 / Math.PI);
@@ -55,8 +61,8 @@ namespace Z_Siddiqi_Crswrk1
                 textBox6.Text = Convert.ToString(fourDigit.limit);
                 textBox14.Text = " ";
 
-                double A0 = alpha + fourDigit.A0();
-                double int_A0 = - fourDigit.A0();
+                double A0 = alpha - fourDigit.A0();
+                double int_A0 = fourDigit.A0();
                 double A1 = fourDigit.A1();
                 double A2 = fourDigit.A2();
 
@@ -94,8 +100,8 @@ namespace Z_Siddiqi_Crswrk1
                 textBox6.Text = Convert.ToString(fiveDigit.camber);
                 textBox14.Text = Convert.ToString(fiveDigit.r);
 
-                double A0 = alpha + fiveDigit.A0();
-                double int_A0 = -fiveDigit.A0();
+                double A0 = alpha - fiveDigit.A0();
+                double int_A0 = fiveDigit.A0();
                 double A1 = fiveDigit.A1();
                 double A2 = fiveDigit.A2();
 
@@ -117,9 +123,15 @@ namespace Z_Siddiqi_Crswrk1
 
         private void button2_Click(object sender, EventArgs e)
         {
+            int num;
             string aerofoil = textBox1.Text;
 
-            if (aerofoil.Length == 4)
+            if (!int.TryParse(aerofoil, out num) || aerofoil.Length > 5)
+            {
+                System.Windows.Forms.MessageBox.Show("Please enter a four or five digit NACA aerofoil.");
+            }
+
+            else if (aerofoil.Length == 4)
             {
                 double alpha = 4 * Math.PI / 180;
                 textBox15.Text = Convert.ToString(alpha * 180 / Math.PI);
@@ -276,7 +288,7 @@ namespace Z_Siddiqi_Crswrk1
 
         public double A0()
         {
-            return -(1 / Math.PI) * (A0_fore(m, p, limit) - A0_fore(m, p, 0) + A0_aft(m, p, Math.PI) - A0_aft(m, p, limit));
+            return (1 / Math.PI) * (A0_fore(m, p, limit) - A0_fore(m, p, 0) + A0_aft(m, p, Math.PI) - A0_aft(m, p, limit));
         }
         public double A1()
         {
@@ -336,7 +348,7 @@ namespace Z_Siddiqi_Crswrk1
 
         public double A0()
         {
-            return -(1 / Math.PI) * (A0_fore(k, r, camber) + A0_aft(k, r, camber));
+            return (1 / Math.PI) * (A0_fore(k, r, camber) + A0_aft(k, r, camber));
         }
         public double A1()
         {
