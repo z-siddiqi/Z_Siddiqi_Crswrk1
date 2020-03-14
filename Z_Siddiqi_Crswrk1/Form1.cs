@@ -225,6 +225,11 @@ namespace Z_Siddiqi_Crswrk1
                 textBox13.Text = alpha_zl.ToString();
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
+        }
     }
 
     public class NACA_4_Digit
