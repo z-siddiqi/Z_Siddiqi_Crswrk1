@@ -157,10 +157,10 @@ namespace Z_Siddiqi_Crswrk1
                 textBox4.Text = fourDigit.aerofoil.Substring(2, 2) + "%";
                 textBox6.Text = Convert.ToString(fourDigit.limit);
 
-                float A0 = alpha - (1 / (float)Math.PI) * (fourDigit.SimpsonsFore(0, (float)fourDigit.limit, fourDigit.m, fourDigit.p, 0) + fourDigit.SimpsonsAft((float)fourDigit.limit, (float)Math.PI, fourDigit.m, fourDigit.p, 0));
-                float int_A0 = (1 / (float)Math.PI) * (SimpsonsFore(0, (float)limit, m, p, 0) + SimpsonsAft((float)limit, (float)Math.PI, m, p, 0));
-                float A1 = (2 / (float)Math.PI) * (SimpsonsFore(0, (float)limit, m, p, 1) + SimpsonsAft((float)limit, (float)Math.PI, m, p, 1));
-                float A2 = (2 / (float)Math.PI) * (SimpsonsFore(0, (float)limit, m, p, 2) + SimpsonsAft((float)limit, (float)Math.PI, m, p, 2));
+                double A0 = alpha - (1 / Math.PI) * (fourDigit.SimpsonsRule(0, fourDigit.limit, 0, fourDigit.dzdxf) + fourDigit.SimpsonsRule(fourDigit.limit, Math.PI, 0, fourDigit.dzdxa));
+                double int_A0 = (1 / Math.PI) * (fourDigit.SimpsonsRule(0, fourDigit.limit, 0, fourDigit.dzdxf) + fourDigit.SimpsonsRule(fourDigit.limit, Math.PI, 0, fourDigit.dzdxa));
+                double A1 = (2 / Math.PI) * (fourDigit.SimpsonsRule(0, fourDigit.limit, 1, fourDigit.dzdxf) + fourDigit.SimpsonsRule(fourDigit.limit, Math.PI, 1, fourDigit.dzdxa));
+                double A2 = (2 / Math.PI) * (fourDigit.SimpsonsRule(0, fourDigit.limit, 2, fourDigit.dzdxf) + fourDigit.SimpsonsRule(fourDigit.limit, Math.PI, 2, fourDigit.dzdxa));
 
                 textBox7.Text = A0.ToString();
                 textBox8.Text = A1.ToString();
@@ -270,62 +270,32 @@ namespace Z_Siddiqi_Crswrk1
             return m * (2 * p - 1) * Math.Sin(2 * x) / (2 * Math.Pow(1 - p, 2)) + (m / Math.Pow(1 - p, 2)) * (Math.Sin(3 * x) / 6 + Math.Sin(x) / 2);
         }
 
-        public float dzdxf(double m, double p, double x, double n)
+        public double dzdxf(double m, double p, double x, double n)
         {
-            return (float)(m / Math.Pow(p, 2) * (2 * p - 1 + Math.Cos(x)) * Math.Cos(n * x));
+            return m / Math.Pow(p, 2) * (2 * p - 1 + Math.Cos(x)) * Math.Cos(n * x);
         }
 
-        public float dzdxa(double m, double p, double x, double n)
+        public double dzdxa(double m, double p, double x, double n)
         {
-            return (float)(m / Math.Pow(1 - p, 2) * (2 * p - 1 + Math.Cos(x)) * Math.Cos(n * x));
+            return m / Math.Pow(1 - p, 2) * (2 * p - 1 + Math.Cos(x)) * Math.Cos(n * x);
         }
 
-        public float SimpsonsFore(float ll, float ul, double m, double p, double n)
+        public double SimpsonsRule(double ll, double ul, double n, Func<double, double, double, double, double> func)
         {
             int nn = 6;
 
-            float h = (ul - ll) / nn;
+            double h = (ul - ll) / nn;
 
-            float[] x = new float[10];
-            float[] fx = new float[10];
+            double[] x = new double[10];
+            double[] fx = new double[10];
 
             for (int i = 0; i <= nn; i++)
             {
                 x[i] = ll + i * h;
-                fx[i] = dzdxf(m, p, x[i], n);
+                fx[i] = func(m, p, x[i], n);
             }
 
-            float res = 0;
-            for (int i = 0; i <= nn; i++)
-            {
-                if (i == 0 || i == nn)
-                    res += fx[i];
-                else if (i % 2 != 0)
-                    res += 4 * fx[i];
-                else
-                    res += 2 * fx[i];
-            }
-
-            res = res * (h / 3);
-            return res;
-        }
-
-        public float SimpsonsAft(float ll, float ul, double m, double p, double n)
-        {
-            int nn = 6;
-
-            float h = (ul - ll) / nn;
-
-            float[] x = new float[10];
-            float[] fx = new float[10];
-
-            for (int i = 0; i <= nn; i++)
-            {
-                x[i] = ll + i * h;
-                fx[i] = dzdxa(m, p, x[i], n);
-            }
-
-            float res = 0;
+            double res = 0;
             for (int i = 0; i <= nn; i++)
             {
                 if (i == 0 || i == nn)
