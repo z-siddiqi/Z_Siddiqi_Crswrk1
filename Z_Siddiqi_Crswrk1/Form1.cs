@@ -115,36 +115,6 @@ namespace Z_Siddiqi_Crswrk1
             }
         }
 
-        public static double constants(double x, double y)
-        {
-            DataTable constants = new DataTable();
-            constants.Columns.Add("Digits", typeof(double));
-            constants.Columns.Add("r", typeof(double));
-            constants.Columns.Add("k", typeof(double));
-            constants.Rows.Add(10, 0.0580, 361.400);
-            constants.Rows.Add(20, 0.1260, 51.640);
-            constants.Rows.Add(30, 0.2025, 15.957);
-            constants.Rows.Add(40, 0.2900, 6.643);
-            constants.Rows.Add(50, 0.3910, 3.230);
-
-            foreach (DataRow dr in constants.Rows)
-            {
-                if ((double)dr["Digits"] == x)
-                {
-                    if (y == 1)
-                    {
-                        return (double)dr["r"];
-                    }
-
-                    else if (y == 2)
-                    {
-                        return (double)dr["k"];
-                    }
-                }
-            }
-            return 0;
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             string aerofoil = textBox1.Text;
@@ -166,10 +136,10 @@ namespace Z_Siddiqi_Crswrk1
                 textBox6.Text = Convert.ToString(fourDigit.limit);
                 textBox14.Text = " ";
 
-                double A0 = alpha - (1 / Math.PI) * (fourDigit.SimpsonsRule(0, fourDigit.limit, 0, fourDigit.dzdxf) + fourDigit.SimpsonsRule(fourDigit.limit, Math.PI, 0, fourDigit.dzdxa));
-                double int_A0 = (1 / Math.PI) * (fourDigit.SimpsonsRule(0, fourDigit.limit, 0, fourDigit.dzdxf) + fourDigit.SimpsonsRule(fourDigit.limit, Math.PI, 0, fourDigit.dzdxa));
-                double A1 = (2 / Math.PI) * (fourDigit.SimpsonsRule(0, fourDigit.limit, 1, fourDigit.dzdxf) + fourDigit.SimpsonsRule(fourDigit.limit, Math.PI, 1, fourDigit.dzdxa));
-                double A2 = (2 / Math.PI) * (fourDigit.SimpsonsRule(0, fourDigit.limit, 2, fourDigit.dzdxf) + fourDigit.SimpsonsRule(fourDigit.limit, Math.PI, 2, fourDigit.dzdxa));
+                double A0 = alpha - (1 / Math.PI) * (SimpsonsRule(0, fourDigit.limit, 0, fourDigit.dzdxf, fourDigit.m, fourDigit.p) + SimpsonsRule(fourDigit.limit, Math.PI, 0, fourDigit.dzdxa, fourDigit.m, fourDigit.p));
+                double int_A0 = (1 / Math.PI) * (SimpsonsRule(0, fourDigit.limit, 0, fourDigit.dzdxf, fourDigit.m, fourDigit.p) + SimpsonsRule(fourDigit.limit, Math.PI, 0, fourDigit.dzdxa, fourDigit.m, fourDigit.p));
+                double A1 = (2 / Math.PI) * (SimpsonsRule(0, fourDigit.limit, 1, fourDigit.dzdxf, fourDigit.m, fourDigit.p) + SimpsonsRule(fourDigit.limit, Math.PI, 1, fourDigit.dzdxa, fourDigit.m, fourDigit.p));
+                double A2 = (2 / Math.PI) * (SimpsonsRule(0, fourDigit.limit, 2, fourDigit.dzdxf, fourDigit.m, fourDigit.p) + SimpsonsRule(fourDigit.limit, Math.PI, 2, fourDigit.dzdxa, fourDigit.m, fourDigit.p));
 
                 textBox7.Text = A0.ToString();
                 textBox8.Text = A1.ToString();
@@ -205,10 +175,10 @@ namespace Z_Siddiqi_Crswrk1
                 textBox6.Text = Convert.ToString(fiveDigit.camber);
                 textBox14.Text = Convert.ToString(fiveDigit.r);
 
-                double A0 = alpha - (1 / Math.PI) * (fiveDigit.SimpsonsRule(0, fiveDigit.camber, 0, fiveDigit.dzdxf) + fiveDigit.SimpsonsRule(fiveDigit.camber, Math.PI, 0, fiveDigit.dzdxa));
-                double int_A0 = (1 / Math.PI) * (fiveDigit.SimpsonsRule(0, fiveDigit.camber, 0, fiveDigit.dzdxf) + fiveDigit.SimpsonsRule(fiveDigit.camber, Math.PI, 0, fiveDigit.dzdxa));
-                double A1 = (2 / Math.PI) * (fiveDigit.SimpsonsRule(0, fiveDigit.camber, 1, fiveDigit.dzdxf) + fiveDigit.SimpsonsRule(fiveDigit.camber, Math.PI, 1, fiveDigit.dzdxa));
-                double A2 = (2 / Math.PI) * (fiveDigit.SimpsonsRule(0, fiveDigit.camber, 2, fiveDigit.dzdxf) + fiveDigit.SimpsonsRule(fiveDigit.camber, Math.PI, 2, fiveDigit.dzdxa));
+                double A0 = alpha - (1 / Math.PI) * (SimpsonsRule(0, fiveDigit.camber, 0, fiveDigit.dzdxf, fiveDigit.k, fiveDigit.r) + SimpsonsRule(fiveDigit.camber, Math.PI, 0, fiveDigit.dzdxa, fiveDigit.k, fiveDigit.r));
+                double int_A0 = (1 / Math.PI) * (SimpsonsRule(0, fiveDigit.camber, 0, fiveDigit.dzdxf, fiveDigit.k, fiveDigit.r) + SimpsonsRule(fiveDigit.camber, Math.PI, 0, fiveDigit.dzdxa, fiveDigit.k, fiveDigit.r));
+                double A1 = (2 / Math.PI) * (SimpsonsRule(0, fiveDigit.camber, 1, fiveDigit.dzdxf, fiveDigit.k, fiveDigit.r) + SimpsonsRule(fiveDigit.camber, Math.PI, 1, fiveDigit.dzdxa, fiveDigit.k, fiveDigit.r));
+                double A2 = (2 / Math.PI) * (SimpsonsRule(0, fiveDigit.camber, 2, fiveDigit.dzdxf, fiveDigit.k, fiveDigit.r) + SimpsonsRule(fiveDigit.camber, Math.PI, 2, fiveDigit.dzdxa, fiveDigit.k, fiveDigit.r));
 
                 textBox7.Text = A0.ToString();
                 textBox8.Text = A1.ToString();
@@ -228,7 +198,67 @@ namespace Z_Siddiqi_Crswrk1
 
         private void button3_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.Application.Exit();
+            Application.Exit();
+        }
+
+        public double constants(double x, double y)
+        {
+            DataTable constants = new DataTable();
+            constants.Columns.Add("Digits", typeof(double));
+            constants.Columns.Add("r", typeof(double));
+            constants.Columns.Add("k", typeof(double));
+            constants.Rows.Add(10, 0.0580, 361.400);
+            constants.Rows.Add(20, 0.1260, 51.640);
+            constants.Rows.Add(30, 0.2025, 15.957);
+            constants.Rows.Add(40, 0.2900, 6.643);
+            constants.Rows.Add(50, 0.3910, 3.230);
+
+            foreach (DataRow dr in constants.Rows)
+            {
+                if ((double)dr["Digits"] == x)
+                {
+                    if (y == 1)
+                    {
+                        return (double)dr["r"];
+                    }
+
+                    else if (y == 2)
+                    {
+                        return (double)dr["k"];
+                    }
+                }
+            }
+            return 0;
+        }
+
+        public double SimpsonsRule(double ll, double ul, double n, Func<double, double, double, double, double> func, double m, double p)
+        {
+            int nn = 6;
+
+            double h = (ul - ll) / nn;
+
+            double[] x = new double[10];
+            double[] fx = new double[10];
+
+            for (int i = 0; i <= nn; i++)
+            {
+                x[i] = ll + i * h;
+                fx[i] = func(m, p, x[i], n);
+            }
+
+            double res = 0;
+            for (int i = 0; i <= nn; i++)
+            {
+                if (i == 0 || i == nn)
+                    res += fx[i];
+                else if (i % 2 != 0)
+                    res += 4 * fx[i];
+                else
+                    res += 2 * fx[i];
+            }
+
+            res = res * (h / 3);
+            return res;
         }
     }
 
@@ -289,36 +319,6 @@ namespace Z_Siddiqi_Crswrk1
         public double dzdxa(double m, double p, double x, double n)
         {
             return m / Math.Pow(1 - p, 2) * (2 * p - 1 + Math.Cos(x)) * Math.Cos(n * x);
-        }
-
-        public double SimpsonsRule(double ll, double ul, double n, Func<double, double, double, double, double> func)
-        {
-            int nn = 6;
-
-            double h = (ul - ll) / nn;
-
-            double[] x = new double[10];
-            double[] fx = new double[10];
-
-            for (int i = 0; i <= nn; i++)
-            {
-                x[i] = ll + i * h;
-                fx[i] = func(m, p, x[i], n);
-            }
-
-            double res = 0;
-            for (int i = 0; i <= nn; i++)
-            {
-                if (i == 0 || i == nn)
-                    res += fx[i];
-                else if (i % 2 != 0)
-                    res += 4 * fx[i];
-                else
-                    res += 2 * fx[i];
-            }
-
-            res = res * (h / 3);
-            return res;
         }
     }
 
@@ -395,36 +395,6 @@ namespace Z_Siddiqi_Crswrk1
         public double dzdxa(double k, double r, double x, double n)
         {
             return (-k * Math.Pow(r, 3) / 6) * Math.Cos(n * x);
-        }
-
-        public double SimpsonsRule(double ll, double ul, double n, Func<double, double, double, double, double> func)
-        {
-            int nn = 6;
-
-            double h = (ul - ll) / nn;
-
-            double[] x = new double[10];
-            double[] fx = new double[10];
-
-            for (int i = 0; i <= nn; i++)
-            {
-                x[i] = ll + i * h;
-                fx[i] = func(k, r, x[i], n);
-            }
-
-            double res = 0;
-            for (int i = 0; i <= nn; i++)
-            {
-                if (i == 0 || i == nn)
-                    res += fx[i];
-                else if (i % 2 != 0)
-                    res += 4 * fx[i];
-                else
-                    res += 2 * fx[i];
-            }
-
-            res = res * (h / 3);
-            return res;
         }
     }
 }
