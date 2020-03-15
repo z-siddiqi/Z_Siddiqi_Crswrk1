@@ -22,15 +22,16 @@ namespace Z_Siddiqi_Crswrk1
             textBox1.Text = "2412";
 
             string aerofoil = textBox1.Text;
-            double location = Convert.ToDouble(aerofoil.Substring(1, 1));
-            double limit = Math.Acos(1 - 2 * location / 10);
+            double p = Convert.ToDouble(aerofoil.Substring(1, 1)) / 10;
+            double limit = Math.Acos(1 - 2 * p);
 
             textBox2.Text = aerofoil.Substring(0, 1) + "%";
-            textBox3.Text = aerofoil.Substring(1, 1) + "%";
+            textBox3.Text = Convert.ToString(p * 10) + "%";
             textBox4.Text = aerofoil.Substring(2, 2) + "%";
             textBox5.Text = " ";
             textBox6.Text = Convert.ToString(limit);
             textBox14.Text = " ";
+            textBox15.Text = "0";
             textBox16.Text = "Normal";
         }
 
@@ -46,8 +47,7 @@ namespace Z_Siddiqi_Crswrk1
  
             else if (aerofoil.Length == 4)
             {
-                double alpha = 4 * Math.PI / 180;
-                textBox15.Text = Convert.ToString(alpha * 180 / Math.PI);
+                double alpha = String.IsNullOrEmpty(textBox15.Text) ? 0 : Convert.ToDouble(textBox15.Text) * Math.PI / 180;
 
                 var fourDigit = new NACA_4_Digit(aerofoil);
                 fourDigit.m = Convert.ToDouble(fourDigit.aerofoil.Substring(0, 1)) / 100;
@@ -55,11 +55,12 @@ namespace Z_Siddiqi_Crswrk1
                 fourDigit.limit = Math.Acos(1 - 2 * fourDigit.p);
 
                 textBox2.Text = fourDigit.aerofoil.Substring(0, 1) + "%";
-                textBox3.Text = fourDigit.aerofoil.Substring(1, 1) + "%";
+                textBox3.Text = Convert.ToString(fourDigit.p * 10) + "%";
                 textBox4.Text = fourDigit.aerofoil.Substring(2, 2) + "%";
                 textBox5.Text = " ";
                 textBox6.Text = Convert.ToString(fourDigit.limit);
                 textBox14.Text = " ";
+                textBox15.Text = Convert.ToString(alpha * 180 / Math.PI);
 
                 double A0 = alpha - fourDigit.A0();
                 double int_A0 = fourDigit.A0();
@@ -81,10 +82,9 @@ namespace Z_Siddiqi_Crswrk1
                 textBox13.Text = alpha_zl.ToString();
             }
 
-            else if (aerofoil.Length == 5)
+            else
             {
-                double alpha = 0 * Math.PI / 180;
-                textBox15.Text = Convert.ToString(alpha * 180 / Math.PI);
+                double alpha = String.IsNullOrEmpty(textBox15.Text) ? 0 : Convert.ToDouble(textBox15.Text) * Math.PI / 180;
 
                 var fiveDigit = new NACA_5_Digit(aerofoil);
                 fiveDigit.r = constants(Convert.ToDouble(fiveDigit.aerofoil.Substring(1, 2)), 1);
@@ -99,6 +99,7 @@ namespace Z_Siddiqi_Crswrk1
                 textBox5.Text = Convert.ToString(fiveDigit.k);
                 textBox6.Text = Convert.ToString(fiveDigit.camber);
                 textBox14.Text = Convert.ToString(fiveDigit.r);
+                textBox15.Text = Convert.ToString(alpha * 180 / Math.PI);
 
                 double A0 = alpha - fiveDigit.A0();
                 double int_A0 = fiveDigit.A0();
@@ -128,13 +129,12 @@ namespace Z_Siddiqi_Crswrk1
 
             if (!int.TryParse(aerofoil, out num) || aerofoil.Length > 5)
             {
-                System.Windows.Forms.MessageBox.Show("Please enter a four or five digit NACA aerofoil.");
+                MessageBox.Show("Please enter a four or five digit NACA aerofoil.");
             }
 
             else if (aerofoil.Length == 4)
             {
-                double alpha = 4 * Math.PI / 180;
-                textBox15.Text = Convert.ToString(alpha * 180 / Math.PI);
+                double alpha = String.IsNullOrEmpty(textBox15.Text) ? 0 : Convert.ToDouble(textBox15.Text) * Math.PI / 180;
 
                 var fourDigit = new NACA_4_Digit(aerofoil);
                 fourDigit.m = Convert.ToDouble(fourDigit.aerofoil.Substring(0, 1)) / 100;
@@ -142,11 +142,12 @@ namespace Z_Siddiqi_Crswrk1
                 fourDigit.limit = Math.Acos(1 - 2 * fourDigit.p);
 
                 textBox2.Text = fourDigit.aerofoil.Substring(0, 1) + "%";
-                textBox3.Text = fourDigit.aerofoil.Substring(1, 1) + "%";
+                textBox3.Text = Convert.ToString(fourDigit.p * 10) + "%";
                 textBox4.Text = fourDigit.aerofoil.Substring(2, 2) + "%";
                 textBox5.Text = " ";
                 textBox6.Text = Convert.ToString(fourDigit.limit);
                 textBox14.Text = " ";
+                textBox15.Text = Convert.ToString(alpha * 180 / Math.PI);
 
                 double A0 = alpha - (1 / Math.PI) * (SimpsonsRule(0, fourDigit.limit, 0, fourDigit.dzdxf, fourDigit.m, fourDigit.p) + SimpsonsRule(fourDigit.limit, Math.PI, 0, fourDigit.dzdxa, fourDigit.m, fourDigit.p));
                 double int_A0 = (1 / Math.PI) * (SimpsonsRule(0, fourDigit.limit, 0, fourDigit.dzdxf, fourDigit.m, fourDigit.p) + SimpsonsRule(fourDigit.limit, Math.PI, 0, fourDigit.dzdxa, fourDigit.m, fourDigit.p));
@@ -168,10 +169,9 @@ namespace Z_Siddiqi_Crswrk1
                 textBox13.Text = alpha_zl.ToString();
             }
 
-            else if (aerofoil.Length == 5)
+            else 
             {
-                double alpha = 0 * Math.PI / 180;
-                textBox15.Text = Convert.ToString(alpha * 180 / Math.PI);
+                double alpha = String.IsNullOrEmpty(textBox15.Text) ? 0 : Convert.ToDouble(textBox15.Text) * Math.PI / 180;
 
                 var fiveDigit = new NACA_5_Digit(aerofoil);
                 fiveDigit.r = constants(Convert.ToDouble(fiveDigit.aerofoil.Substring(1, 2)), 1);
@@ -186,6 +186,7 @@ namespace Z_Siddiqi_Crswrk1
                 textBox5.Text = Convert.ToString(fiveDigit.k);
                 textBox6.Text = Convert.ToString(fiveDigit.camber);
                 textBox14.Text = Convert.ToString(fiveDigit.r);
+                textBox15.Text = Convert.ToString(alpha * 180 / Math.PI);
 
                 double A0 = alpha - (1 / Math.PI) * (SimpsonsRule(0, fiveDigit.camber, 0, fiveDigit.dzdxf, fiveDigit.k, fiveDigit.r) + SimpsonsRule(fiveDigit.camber, Math.PI, 0, fiveDigit.dzdxa, fiveDigit.k, fiveDigit.r));
                 double int_A0 = (1 / Math.PI) * (SimpsonsRule(0, fiveDigit.camber, 0, fiveDigit.dzdxf, fiveDigit.k, fiveDigit.r) + SimpsonsRule(fiveDigit.camber, Math.PI, 0, fiveDigit.dzdxa, fiveDigit.k, fiveDigit.r));
