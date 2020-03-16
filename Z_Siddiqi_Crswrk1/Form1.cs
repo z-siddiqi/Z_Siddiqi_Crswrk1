@@ -35,7 +35,7 @@ namespace Z_Siddiqi_Crswrk1
             textBox6.Text = Convert.ToString(limit);
             textBox14.Text = " ";
             textBox15.Text = "0";
-            textBox16.Text = "Normal";
+            textBox16.Text = "Standard";
         }
     
     // Analytical Calculation
